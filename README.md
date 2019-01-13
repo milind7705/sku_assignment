@@ -8,7 +8,7 @@ Solved all the problems except the UI ones.
 2. Implemented all the APIs functionalities
 3. Checked in all the models and their serializers
 4. Implemented Swagger for the apis
-5. Small things pending
+5. Added schema.PNG for the assignment schema
 
 ## Unit Testing ##
 Unit testing is pending
