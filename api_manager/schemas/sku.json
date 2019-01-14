@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "location": {
+      "type": "string"
+    },
+    "department": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "subcategory": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "location",
+    "department",
+    "category",
+    "subcategory"
+  ]
+}

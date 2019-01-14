@@ -1,13 +1,23 @@
-from rest_framework import HTTP_HEADER_ENCODING, exceptions, status, response
+from rest_framework import status, response
 from api_manager.models import SubCategory, SubCategorySerializer, \
     SKU, SKUSerializer
+from jsonschema import validate
+from jsonschema.exceptions import ValidationError
+from functools import wraps
 
 REQUIRED_PARAMS = ['location', 'department', 'category', 'subcategory']
 
 
 def get_sku_by_filters(request):
+    """
+    @summary: A function to fetch the skus
+    @param request (object): request object
+    @return sku: response object
+    """
     try:
         params = request.query_params
+        if not params:
+            params = request.data
         missing_params = set(REQUIRED_PARAMS) - set(params)
         if missing_params:
             message = "Input parameter missing for the api: {}".\
@@ -45,3 +55,32 @@ def get_sku_by_filters(request):
     except Exception as e:
         return response.Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                                  data=e.message)
+
+
+def get_skus_by_body(request):
+    """
+    @summary: A function to fetch the skus
+    @param request (object): request object
+    @return sku: response object
+    """
+    return get_sku_by_filters(request)
+
+
+def body(schema=None):
+    """
+    @summary: A decorator to perform schema validation
+    @param dict: json schema
+    """
+    def function_wrapper(func):
+        @wraps(func)
+        def returned_wrapper(request):
+            try:
+                json_params = request.data if request.data else {}
+                validate(json_params, schema)
+            except ValidationError as err:
+                return response.Response(
+                    status=status.HTTP_400_BAD_REQUEST,
+                    data=err.message)
+            return func(request)
+        return returned_wrapper
+    return function_wrapper

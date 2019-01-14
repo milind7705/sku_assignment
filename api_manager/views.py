@@ -12,7 +12,8 @@ from rest_framework.decorators import api_view, renderer_classes, \
 from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 from rest_framework.permissions import AllowAny
 import urls
-from core.sku import get_sku_by_filters
+from core.sku import get_sku_by_filters, get_skus_by_body, body
+from schemas import sku
 from core.authorization import get_login_credentials
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
@@ -89,11 +90,22 @@ class SubCategoryViewSet(MyViewSet):
 @api_view(['GET'])
 def get_sku_by_params(request):
     """
-    @summary: viewset for location
+    @summary: function for getting skus
     @param request object
     @return Response(Response object): sku response
     """
     return get_sku_by_filters(request)
+
+
+@api_view(['POST'])
+@body(sku)
+def get_skus(request):
+    """
+    @summary: viewset for location
+    @param request object
+    @return Response(Response object): sku response
+    """
+    return get_skus_by_body(request)
 
 
 # swagger documentation
