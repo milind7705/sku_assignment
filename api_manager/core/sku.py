@@ -11,7 +11,7 @@ REQUIRED_PARAMS = ['location', 'department', 'category', 'subcategory']
 def get_sku_by_filters(request):
     """
     @summary: A function to fetch the skus
-    @param request (object): request object
+    @param request: request object
     @return sku: response object
     """
     try:
@@ -60,7 +60,7 @@ def get_sku_by_filters(request):
 def get_skus_by_body(request):
     """
     @summary: A function to fetch the skus
-    @param request (object): request object
+    @param request: request object
     @return sku: response object
     """
     return get_sku_by_filters(request)
@@ -69,7 +69,7 @@ def get_skus_by_body(request):
 def body(schema=None):
     """
     @summary: A decorator to perform schema validation
-    @param dict: json schema
+    @param schema: json schema
     """
     def function_wrapper(func):
         @wraps(func)

@@ -14,7 +14,7 @@ from rest_framework.permissions import AllowAny
 import urls
 from core.sku import get_sku_by_filters, get_skus_by_body, body
 from schemas import sku
-from core.authorization import get_login_credentials
+from core.authorization import get_login_credentials, delete_token
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
@@ -44,6 +44,11 @@ def login(request):
     token, _ = Token.objects.get_or_create(user=user)
     return Response({'token': token.key},
                     status=HTTP_200_OK)
+
+
+@api_view(['POST'])
+def logout(request):
+    return delete_token(request)
 
 
 class MyViewSet(NestedViewSetMixin, CreateModelMixin, RetrieveModelMixin,

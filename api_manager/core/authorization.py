@@ -1,5 +1,6 @@
 import base64
-from rest_framework import HTTP_HEADER_ENCODING, exceptions, response
+from rest_framework import HTTP_HEADER_ENCODING, exceptions, response, status
+from rest_framework.authtoken.models import Token
 
 
 def get_authorization_header(request):
@@ -41,3 +42,31 @@ def get_login_credentials(request):
         raise exceptions.AuthenticationFailed(msg)
 
     return auth_parts[0], auth_parts[2]
+
+
+def get_token_from_request(request):
+    """
+    @summary: Returns the token from requests
+    @param request: request object
+    @return token (string): user token
+    """
+    return request.META.get("HTTP_AUTHORIZATION").split()[1] \
+        if request.META.get("HTTP_AUTHORIZATION") else None
+
+
+def delete_token(request):
+    """
+    @summary: A function to delete token from request
+    @param request: http request object
+    @return response : http response object
+    """
+    try:
+        token = get_token_from_request(request)
+        if not token:
+            return response.Response(status=status.HTTP_400_BAD_REQUEST)
+        Token.objects.get(pk=token).delete()
+    except Exception as e:
+        msg = str(e)
+        return response.Response(
+            data=msg, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return response.Response(status=status.HTTP_204_NO_CONTENT)

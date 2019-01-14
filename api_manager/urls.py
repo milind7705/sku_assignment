@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from rest_framework_extensions.routers import ExtendedSimpleRouter
 from .views import LocationViewSet, DepartmentViewSet, CategoryViewSet, \
-    SubCategoryViewSet, get_sku_by_params, schema_view, login, get_skus
+    SubCategoryViewSet, get_sku_by_params, schema_view, login, get_skus, logout
 
 
 router = ExtendedSimpleRouter()
@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^$', schema_view), # swagger URLS
     url(r'^sku/', get_sku_by_params, name="sku"),# the sku api
     url(r'login/', login, name='login'),
+    url(r'logout/', logout, name='logout'),
     url(r'^skus/', get_skus, name="skus")
 ]
 
