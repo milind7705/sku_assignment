@@ -30,12 +30,11 @@ def get_sku_by_filters(request):
         location = params.get("location")
         subcategories = SubCategorySerializer(SubCategory.objects.filter(
             name=subcategory), many=True).data
-
         sku_list = []
         for each_subcategory in subcategories:
             if each_subcategory.get('name') == subcategory \
-                    and each_subcategory.get('category').\
-                            get('name') == category \
+                    and each_subcategory.\
+                            get('category').get('name') == category \
                     and each_subcategory.get('category').get('department').\
                     get('name') == department and \
                     each_subcategory.get('category').\

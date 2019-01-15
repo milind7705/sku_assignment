@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework', #DRF
     'rest_framework.authtoken', # For tokens
     'rest_framework_swagger',# For API documentation
+    'django_nose', # for unit testing
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -71,6 +72,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sku_assignment.wsgi.application'
 
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+TEST_RUNNER = 'unit_tests.test_runner.DatabaselessTestRunner'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
